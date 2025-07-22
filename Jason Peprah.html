@@ -1,22 +1,16 @@
-const int potPin = 15; // Potentiometer connected to GPIO27
-const int ledPin = 2;  // LED connected to GPIO2 (D2)
-
+const int signalPin = 15;
 void setup() {
-  pinMode(ledPin, OUTPUT);
   Serial.begin(115200);
+  pinMode(signalPin, INPUT);
 }
 
 void loop() {
-  int potValue = analogRead(potPin); // Range: 0–4095
-  int brightness = map(potValue, 0, 4095, 0, 1023); // Manual PWM range
+  int signalState = digitalRead(signalPin);
 
-  // Simple PWM using delayMicroseconds
-  for (int i = 0; i < 50; i++) {
-    digitalWrite(ledPin, HIGH);
-    delayMicroseconds(brightness);  // On-time
-    digitalWrite(ledPin, LOW);
-    delayMicroseconds(1023 - brightness);  // Off-time
-  }
-
-  Serial.println(brightness);
+  if (signalState == HIGH) {
+    Serial.println("Signal Detected: HIGH");
+} else {
+  Serial.println("Signal Detected: LOW");
+}
+ delay(500);
 }
